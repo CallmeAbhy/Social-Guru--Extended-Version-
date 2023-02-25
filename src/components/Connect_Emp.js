@@ -3,6 +3,7 @@ import Nav_Experts from "./Nav_Experts";
 import NavBar3 from "./NavBar3";
 import "./Connect_Emp.css";
 import "./Speak.css";
+
 // import Conversations from './Chat-Sections/Conversations'
 import Sms from "./Chat-Sections/Sms";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -16,6 +17,7 @@ import Input_footer from "./Input_footer";
 
 export const Connect_Emp = (props) => {
   const [conversations, setConversations] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const params = useParams();
   console.log("This is value of params", params);
@@ -51,6 +53,9 @@ export const Connect_Emp = (props) => {
   }, []);
 
   console.log("See watch Acctually there in Conversations", conversations);
+  useEffect(() => {
+    messagesEndRef?.current.scrollIntoView();
+  }, [conversations]);
 
   return (
     <div>
@@ -94,7 +99,8 @@ export const Connect_Emp = (props) => {
 
             <div className="messages">
               <div className="chat-body">
-                <ScrollToBottom className="message-container">
+                <Sms />
+                <div className="message-container">
                   {conversations.map((msg) => {
                     console.log("The data in a map will be :", msg);
 
@@ -118,7 +124,8 @@ export const Connect_Emp = (props) => {
                       </div>
                     );
                   })}
-                </ScrollToBottom>
+                  <div ref={messagesEndRef}></div>
+                </div>
               </div>
             </div>
 
@@ -133,8 +140,6 @@ export const Connect_Emp = (props) => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

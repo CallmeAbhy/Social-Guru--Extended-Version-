@@ -9,12 +9,14 @@ import { useEffect } from "react";
 import axios from "axios";
 import Input_footer from "./Input_footer";
 import { format } from "timeago.js";
-
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Sms from "./Chat-Sections/Sms";
 function Connect(props) {
   // Use State
   const [conversations, setConversations] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const params = useParams();
   console.log("here is parameter", params.employee);
@@ -51,6 +53,9 @@ function Connect(props) {
   }, []);
 
   console.log("See watch Acctually there in Conversations", conversations);
+  useEffect(() => {
+    messagesEndRef?.current.scrollIntoView();
+  }, [conversations]);
 
   return (
     <>
@@ -94,7 +99,8 @@ function Connect(props) {
 
             <div className="messages">
               <div className="chat-body">
-                <ScrollToBottom className="message-container">
+                <Sms />
+                <div className="message-container">
                   {conversations.map((msg) => {
                     console.log("The data in a map will be :", msg);
                     console.log("from", msg.content.from);
@@ -120,7 +126,8 @@ function Connect(props) {
                       </div>
                     );
                   })}
-                </ScrollToBottom>
+                  <div ref={messagesEndRef}></div>
+                </div>
               </div>
             </div>
 
@@ -135,8 +142,6 @@ function Connect(props) {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

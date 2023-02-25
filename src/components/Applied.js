@@ -17,24 +17,13 @@ import Nav_Experts from "./Nav_Experts";
 // http://localhost:4000/employee/findAppliedJobs/
 
 const Applied = () => {
-  let maila = localStorage.getItem("email_Employee");
-  console.log(maila);
-
   // For Employee id
 
-  const [storage, setStorage] = useState();
+  let employeeid = localStorage.getItem("ID_employee");
+  console.log("The value of employee is", employeeid);
 
   useEffect(() => {
-    axios
-      .get(`http://100.25.193.158:4000/employee/find/?email=${maila}`)
-      .then((response) => {
-        console.log(response);
-        setStorage(response.data.id);
-        fetchApiData(response.data.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchApiData(employeeid);
   }, []);
 
   const [users, setUsers] = useState([]);
